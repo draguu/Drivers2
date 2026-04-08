@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drivers 2.0 — Documentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #667eea;
+      --primary-light: #e0e7ff;
+      --green: #10b981;
+      --orange: #f59e0b;
+      --purple: #8b5cf6;
+      --red: #ef4444;
+      --surface: #ffffff;
+      --bg: #f9fafb;
+      --text: #1f2937;
+      --border: #e5e7eb;
+      --hover: #f3f4f6;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    nav {
+      width: 220px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 1.5rem 0.75rem;
+      flex-shrink: 0;
+    }
+    nav h2 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin: 0 0 0.3rem 0.75rem;
+      font-weight: 700;
+    }
+    nav .nav-sub {
+      font-size: 0.78rem;
+      color: #9ca3af;
+      margin: 0 0 1rem 0.75rem;
+      font-weight: 500;
+    }
+    nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+    nav button {
+      background: none;
+      border: none;
+      padding: 0.7rem 1rem;
+      width: 100%;
+      color: var(--text);
+      font-size: 0.95rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+      font-weight: 500;
+      text-align: left;
+    }
+    nav button:hover { background: var(--hover); color: var(--primary); }
+    nav button.active {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+    }
+    main {
+      flex: 1;
+      padding: 2rem 2.5rem;
+      max-width: 900px;
+      overflow-y: auto;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+    h2 {
+      font-size: 1.35rem;
+      color: var(--green);
+      margin: 2rem 0 0.75rem;
+      font-weight: 700;
+    }
+    h3 {
+      font-size: 1.05rem;
+      color: var(--purple);
+      margin: 1.5rem 0 0.5rem;
+      font-weight: 600;
+    }
+    p { margin-bottom: 1rem; }
+    ul, ol { margin: 0.75rem 0 1rem 1.5rem; }
+    li { margin-bottom: 0.4rem; }
+    code {
+      background: var(--hover);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      color: var(--purple);
+    }
+    .box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+    .box h3 { margin-top: 0; color: var(--orange); }
+    .tip {
+      background: #d1fae5;
+      border-left: 3px solid var(--green);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    .warn {
+      background: #fef3c7;
+      border-left: 3px solid var(--orange);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    .info {
+      background: #ede9fe;
+      border-left: 3px solid var(--purple);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: var(--purple);
+      color: white;
+      margin-right: 0.5rem;
+    }
+    .badge.green { background: var(--green); }
+    .badge.orange { background: var(--orange); }
+    strong { font-weight: 600; }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── GIF container ── */
+    .gif-wrap {
+      margin: 1.25rem 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      display: inline-block;
+      width: 100%;
+    }
+    .gif-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: 340px;
+      object-fit: contain;
+    }
+    .gif-caption {
+      background: var(--surface);
+      padding: 0.45rem 0.75rem;
+      font-size: 0.82rem;
+      color: #6b7280;
+      border-top: 1px solid var(--border);
+      font-style: italic;
+    }
+    .gif-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .gif-row .gif-wrap { margin: 0; }
+
+    /* ── Tab pill strip in the header ── */
+    .tab-strip {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0 1.5rem;
+      flex-wrap: wrap;
+    }
+    .tab-pill {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .tab-pill.green { background: #d1fae5; color: var(--green); }
+    .tab-pill.orange { background: #fef3c7; color: #92400e; }
+
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      nav { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      main { padding: 1.25rem; }
+      .gif-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <h2>🎛️ Drivers 2.0</h2>
+  <p class="nav-sub">by Weybec Studio</p>
+  <ul>
+    <li><button class="active" onclick="show('overview', this)">Overview</button></li>
+    <li><button onclick="show('install', this)">Install</button></li>
+    <li><button onclick="show('drivers', this)">Drivers Tab</button></li>
+    <li><button onclick="show('panels', this)">Panels Tab</button></li>
+    <li><button onclick="show('actions', this)">Actions Tab</button></li>
+    <li><button onclick="show('help', this)">Help & Tips</button></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       OVERVIEW
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section id="overview" style="display:block;">
+    <h1>Drivers 2.0</h1>
+    <p>
+      <strong>Drivers 2.0</strong> is a Blender rigging addon by <strong>Weybec Studio</strong> that lives in the
+      N-panel under the <code>Weybec</code> tab. It bundles three powerful tools into one clean interface:
+      bone-driven shapekey automation, custom viewport control panels, and a per-bone action constraint manager.
+    </p>
+
+    <div class="tab-strip">
+      <span class="tab-pill">🎛️ Drivers</span>
+      <span class="tab-pill green">📐 Panels</span>
+      <span class="tab-pill orange">⚡ Actions</span>
+    </div>
+
+    <div class="gif-wrap">
+      <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGJnYmtobW83dGZuNnJ6aG5ld3JyYmMwdmd3eGk4b3M1cGFqcjA5MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0SeYrXOHiOUVmU5uK2/giphy.gif" alt="Drivers 2.0 overview" />
+      <div class="gif-caption">Drivers 2.0 — control panels, shape key drivers, and action linking all in one N-panel.</div>
+    </div>
+
+    <h2>What Each Tab Does</h2>
+
+    <div class="box">
+      <h3><span class="badge">Drivers</span>Shapekey Automation</h3>
+      <p>Point a bone at a mesh, pick a transform channel and axis, set a min/max range, and add a fully scripted driver to any shape key with a single click. No graph editor wrestling needed.</p>
+    </div>
+
+    <div class="box">
+      <h3><span class="badge green">Panels</span>Viewport Control Panels</h3>
+      <p>Generate custom-shape bones (Square, Horizontal, Vertical) that act as in-viewport slider panels. Assign shape keys to directions, add text labels, group everything under a Master Control bone, and lock the rig when done.</p>
+    </div>
+
+    <div class="box">
+      <h3><span class="badge orange">Actions</span>Action Constraint Manager</h3>
+      <p>Per control-bone action slots with direction limits, GPU bone highlights, and a one-click workflow for binding animations to bone positions. Works with Blender 3.6 all the way through Blender 5.x.</p>
+    </div>
+
+    <div class="tip">
+      <strong>💡 Location:</strong> N-panel (press <code>N</code> in viewport) → <strong>Weybec</strong> tab → switch between Drivers / Panels / Actions with the three tab buttons at the top.
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       INSTALL
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section id="install" style="display:none;">
+    <h1>Installation</h1>
+
+    <h2>Install the Addon</h2>
+    <ol>
+      <li>Download the addon Zip folder </li>
+      <li>Blender → <strong>Edit → Preferences → Add-ons</strong></li>
+      <li>Click <strong>Install</strong>, select the zip file</li>
+      <li>Enable <strong>"Rigging: Drivers 2.0"</strong></li>
+      <li>Open the N-panel in any 3D viewport (<code>N</code> key) and click the <strong>Weybec</strong> tab</li>
+    </ol>
+
+    
+
+    <h2>Compatibility</h2>
+    <ul>
+      <li>Blender <strong>5.1</strong> and later</li>
+      <li>Fully compatible with <strong>Blender 5.x</strong> (layered actions, new slot API)</li>
+    </ul>
+
+    
+
+    <h2>After Install — First Steps</h2>
+    <ol>
+      <li>Select your character's armature in the viewport</li>
+      <li>Enter <strong>Pose Mode</strong></li>
+      <li>Open the Weybec N-panel tab</li>
+      <li>Use the three tabs at the top to switch between Drivers, Panels, and Actions</li>
+    </ol>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       DRIVERS TAB
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section id="drivers" style="display:none;">
+    <h1>Drivers Tab</h1>
+    <p>
+      Automatically wires bone transforms to shape key values using Blender's driver system.
+      No Python scripting or graph editor required — just pick a bone, set a range, and click the driver button next to any shape key.
+    </p>
+
+    <div class="gif-wrap">
+      <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTNnN2JlNnQ2b2JiaHowb3JxOWIxYTJnOGVxbzNiYnJjdGdjdHYyciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NuADtnkPxp2Kg4jPkB/giphy.gif" alt="Adding a shapekey driver" />
+      <div class="gif-caption">Picking a mesh, setting rotation range, and adding a driver to a shape key in seconds.</div>
+    </div>
+
+    <h2>Setup — Step by Step</h2>
+    <ol>
+      <li>Switch to the <strong>Drivers</strong> tab in the Weybec panel</li>
+      <li>In the <strong>Mesh</strong> field, pick the mesh object that has your shape keys</li>
+      <li>Select the armature bone you want to use as the driver source in Pose Mode</li>
+      <li>Set <strong>Type</strong> — Rotation, Location, or Scale</li>
+      <li>Set <strong>Axis</strong> — X, Y, Z (or W for Quaternion rotation bones)</li>
+      <li>Set <strong>Direction</strong> — Positive or Negative influence</li>
+      <li>Enter <strong>Min</strong> and <strong>Max</strong> values (degrees for rotation, units for location/scale)</li>
+      <li>Click the <strong>driver icon button</strong> next to any shape key to apply</li>
+    </ol>
+
+    <h2>Driver Settings Explained</h2>
+
+    <div class="box">
+      <h3><span class="badge">Type</span>Transform Channel</h3>
+      <ul>
+        <li><strong>Rotation</strong> — reads Euler rotation in degrees (−180° to 180°). Best for jaw opens, brow raises, etc.</li>
+        <li><strong>Location</strong> — reads local bone position in Blender units</li>
+        <li><strong>Scale</strong> — reads local bone scale (use 1.0 as baseline, e.g. min 1.0 max 2.0)</li>
+      </ul>
+    </div>
+
+    <div class="box">
+      <h3><span class="badge green">Axis</span>Which Component</h3>
+      <p>Picks which axis of the transform is read. For Rotation + Quaternion bones, a <strong>W</strong> option also appears automatically.</p>
+    </div>
+
+    <div class="box">
+      <h3><span class="badge orange">Min / Max</span>Travel Range</h3>
+      <p>The shape key goes from <code>0.0</code> to <code>1.0</code> as the bone moves from Min to Max. Formula: <code>(value − Min) / (Max − Min)</code>, clamped to [0, 1].</p>
+    </div>
+
+    <div class="gif-wrap">
+      <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHFpMWJqZzRmcTd6czhyeW81aWN5amZ4dnZ2YXU4Nnd2cG1tMjAwZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/psTPr8xm06fdGCxfqv/giphy.gif" alt="Shape key driver in action" />
+      <div class="gif-caption">Shape key value follows bone rotation in real time after the driver is applied.</div>
+    </div>
+
+    <h2>Mesh Picker</h2>
+    <p>
+      The <strong>Mesh</strong> field appears at the top of both the Drivers and Panels tabs — it's shared.
+      Click <strong>Set</strong> to store the active object as the target mesh, or <strong>Clear</strong> to reset.
+      The shape key list below updates automatically once a valid mesh with shape keys is assigned.
+    </p>
+
+    <div class="tip">
+      <strong>💡 Tip:</strong> Each driver button overwrites any existing driver on that shape key. You can safely re-apply if you change the bone or range settings.
+    </div>
+
+    <h2>Supported Bone Types</h2>
+    <ul>
+      <li>Any bone in Pose Mode — works with Rigify, Auto-Rig Pro, custom rigs</li>
+      <li>Bones in <strong>Euler</strong> rotation mode for Rotation type</li>
+      <li>Bones in <strong>Quaternion</strong> rotation mode — W axis exposed automatically</li>
+      <li>Root bones, IK targets, FK chains — anything with a local transform</li>
+    </ul>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PANELS TAB
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section id="panels" style="display:none;">
+    <h1>Panels Tab</h1>
+    <p>
+      Creates in-viewport control panels — custom panels with control bones
+      to drive shape keys directly in the 3D view. No more hunting through the Properties panel for shape key values.
+    </p>
+
+    <div class="gif-wrap">
+      <img src="https://media.giphy.com/media/tXoU8yGn72LfyzLgI4/giphy.gif" alt="Panel bones in viewport" />
+      <div class="gif-caption">Viewport control panels — move the bone inside the frame to blend shape keys in real time.</div>
+    </div>
+
+    <h2>Panel Types</h2>
+
+    <div class="box">
+      <h3><span class="badge">Square</span>Joystick control</h3>
+      <p>A square frame with a single controller bone inside. Supports <strong>four directions</strong> (Up, Down, Left, Right), each assigned to a separate shape key. Great for complex facial regions like mouth corners or eye gaze.</p>
+    </div>
+
+    <div class="box">
+      <h3><span class="badge green">Horizontal control</span>Left ↔ Right</h3>
+      <p>A wide rectangular frame for single-axis horizontal movement. Assign one shape key to the positive direction and one to negative. Has a <strong>Direction Mode</strong>: Both, + Only, or − Only.</p>
+    </div>
+
+    <div class="box">
+      <h3><span class="badge orange">Vertical control</span>Up ↕ Down</h3>
+      <p>A tall rectangular frame for single-axis vertical movement. Same direction mode options as Horizontal. Good for brow height, jaw open, chest breathing.</p>
+    </div>
+
+    <h2>Adding a Panel — Step by Step</h2>
+    <ol>
+      <li>Select your armature and enter <strong>Pose Mode</strong></li>
+      <li>In the Panels tab, choose a panel type: Square / Horizontal / Vertical</li>
+      <li>For Horizontal/Vertical, choose <strong>Direction Mode</strong>: Both / + Only / − Only</li>
+      <li>Click <strong>Add Panel</strong></li>
+      <li>The panel bones appear at the 3D cursor location or besides the selected posebone</li>
+      <li>Select a panel bone to see its settings appear below</li>
+      <li>Assign shape keys to each direction in the panel editor</li>
+    </ol>
+
+    
+
+
+    <h2>Labels</h2>
+    <p>
+      In the panel editor (select any panel bone to see it), expand <strong>Settings → Label</strong>:
+    </p>
+    <div class="gif-wrap">
+      <img src="https://media.giphy.com/media/psTPr8xm06fdGCxfqv/giphy.gif" alt="Labels" />
+      <div class="gif-caption">Adding a text label.</div>
+    </div>
+    <ul>
+      <li>Click <strong>Add Label</strong> to attach a font object as a custom shape</li>
+      <li>Type any text in the <strong>Label</strong> field — updates live in the viewport</li>
+      <li>Adjust <strong>Z Offset</strong> to move the text above or below the frame</li>
+      <li>Adjust <strong>Scale</strong> to resize the text</li>
+      <li>Click <strong>Remove Label</strong> to delete it</li>
+    </ul>
+
+    <h2>Bone Colors</h2>
+    <p>Select one or more bones in Pose Mode, then pick a color from the <strong>Bone Color</strong> dropdown in the Panels tab. Applies to all selected bones instantly. Available colors: Default, Red, Orange, Yellow, Green, Teal, Cyan, Blue, Violet, Pink, White.</p>
+	<div class="gif-wrap">
+      <img src="https://media.giphy.com/media/sMmy5MQYLEeOznBepj/giphy.gif" alt="bone color" />
+      <div class="gif-caption">changing bone colors for a clean rig UI.</div>
+    </div>
+
+    <h2>Master Control</h2>
+    <p>The Master Control is a special parent bone that lets you reposition all your panels as a group:</p>
+	<div class="gif-wrap">
+      <img src="https://media.giphy.com/media/o8ROrs2vGtHMoIemG4/giphy.gif" alt="Master control" />
+      <div class="gif-caption">adding master control to the panel.</div>
+    </div>
+
+    <ol>
+      <li>Click <strong>Add</strong> next to Master Control — a cross+circle bone appears centred below your panels</li>
+      <li>To reposition, click <strong>Adjust Placement</strong> — all panel bones unparent temporarily</li>
+      <li>Grab and move the master bone to the desired location</li>
+      <li>Click <strong>Done — Reparent Panels</strong> — all panels re-parent and keep their relative offsets</li>
+      <li>Click <strong>Remove</strong> to delete the master bone (panels remain in place)</li>
+    </ol>
+
+    <div class="warn">
+      <strong>⚠️ Adjust Mode:</strong> While the master is being adjusted, panels do NOT follow it. They stay in their original positions until you click Done. This is by design — baking happens on Done.
+    </div>
+
+    <h2>Lock / Unlock Panels</h2>
+    <p>The <strong>lock icon button</strong> next to "Add Panel" toggles a global lock. When locked, panel bones cannot accidentally be moved or their settings changed. Use this for final delivery rigs.</p>
+	<div class="gif-wrap">
+      <img src="https://media.giphy.com/media/Wl4fv9nkjxZg1JBxs3/giphy.gif" alt="Lock unlock" />
+      <div class="gif-caption">locking extra bones in the panel.</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       ACTIONS TAB
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section id="actions" style="display:none;">
+    <h1>Actions Tab</h1>
+    <p>
+      The Actions tab manages <strong>Action constraints</strong> on a per-control-bone basis.
+      Each bone can have multiple action slots, each fired by a directional movement with optional travel limits.
+      A live GPU highlight system shows exactly which bones are being edited.
+    </p>
+
+    <div class="gif-wrap">
+      <img src="https://media.giphy.com/media/wl51pc8c5jj8FdLoyV/giphy.gif" alt="Actions tab workflow" />
+      <div class="gif-caption">Assigning action constraints to a control bone with direction limits and GPU bone glow.</div>
+    </div>
+
+    <h2>Core Concepts</h2>
+
+    <div class="box">
+      <h3><span class="badge">Control Bone Slots</span></h3>
+      <p>Data is stored <strong>per armature, per control bone</strong>. Select a pose bone and the panel shows that bone's action slots. Selecting other bones to assign them does not reset or hide the current panel — a <strong>Switch</strong> button appears if you've moved to a different slot bone.</p>
+    </div>
+
+    <div class="box">
+      <h3><span class="badge green">Action Items</span></h3>
+      <p>Each slot holds one action item: an Action datablock + a direction (Up / Down / Left / Right) + an optional travel limit. The addon auto-detects which local axes map to world Up and world Right for that bone, so directions always make intuitive sense regardless of bone orientation.</p>
+    </div>
+
+    <div class="box">
+      <h3><span class="badge orange">Limit Buttons</span></h3>
+      <p>Each direction item has a limit toggle. Lock icon = set a LIMIT_LOCATION constraint on that axis. X icon = remove the limit. Limits integrate with panel bones automatically — if a panel bone already has a Smart Limit, the action fires exactly at the bone's physical travel boundary.</p>
+    </div>
+
+    <h2>GPU Bone Highlight</h2>
+
+    <div class="gif-wrap">
+      <img src="https://media.giphy.com/media/wl51pc8c5jj8FdLoyV/giphy.gif" alt="GPU bone highlight bloom effect" />
+      <div class="gif-caption">Multi-layer bloom glow highlights the selected control bone and its custom shape in the viewport.</div>
+    </div>
+
+    <p>When an action slot is in edit mode, the addon draws a glowing highlight over the target bone directly in the 3D viewport using a POST_PIXEL GPU draw callback:</p>
+    <ul>
+      <li>Multi-layer bloom (8 glow passes) — soft halo plus sharp bright line</li>
+      <li>Head circle with outer ring indicator</li>
+      <li>Respects custom shapes — wireframe follows the actual control shape</li>
+      <li>Respects <strong>custom_shape_transform</strong> bones (e.g. ARP arm IK controls)</li>
+      <li>Follows IK / constraints / drivers in real time via the evaluated depsgraph</li>
+    </ul>
+
+    <h3>Highlight Settings</h3>
+    <ul>
+      <li><strong>Color</strong> — pick any RGB color for the glow (updates live)</li>
+      <li><strong>Spread</strong> — controls glow radius and line thickness</li>
+      <li><strong>Show Highlight toggle</strong> — hide the glow without exiting edit mode</li>
+    </ul>
+
+    <h2>Actions Tab Workflow</h2>
+    <ol>
+      <li>Select the armature, enter <strong>Pose Mode</strong></li>
+      <li>Select the control bone you want to drive an action</li>
+      <li>In the Actions tab, click <strong>Add Slot</strong></li>
+      <li>Pick the <strong>Action</strong> datablock to use</li>
+      <li>Choose a <strong>Direction</strong>: Up / Down / Left / Right</li>
+      <li>Set the travel <strong>Threshold</strong> (how far the bone moves to reach full action)</li>
+      <li>Optionally enable the <strong>Limit</strong> button to constrain the bone's physical movement</li>
+      <li>Click the radio button to enter edit mode and see the GPU highlight</li>
+      <li>Click again or use <strong>Switch</strong> when selecting a different bone slot</li>
+    </ol>
+
+    <div class="tip">
+      <strong>💡 Tip:</strong> The panel is "pinned" to the active control bone slot. You can freely select other bones in the viewport to assign references without losing your current slot editor state.
+    </div>
+
+    <div class="info">
+      <strong>ℹ️ Blender 5.x:</strong> The addon handles the new layered action slot API automatically. If an action has slots, the first slot is assigned to the constraint — no manual configuration needed.
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       HELP
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section id="help" style="display:none;">
+    <h1>Help & Tips</h1>
+
+    <h2>Common Issues</h2>
+
+    <h3>Shape Key List is Empty</h3>
+    <ul>
+      <li>Make sure the correct mesh is set in the <strong>Mesh</strong> field at the top of the tab</li>
+      <li>The mesh must have shape keys (at minimum a Basis key)</li>
+      <li>Click <strong>Set</strong> with the target mesh selected in the viewport</li>
+    </ul>
+
+    <h3>Driver Doesn't Respond</h3>
+    <ul>
+      <li>Check that the correct <strong>bone is selected</strong> in Pose Mode when you apply the driver</li>
+      <li>Verify <strong>Min ≠ Max</strong> — identical values produce a zero-division fallback</li>
+      <li>Make sure the bone's rotation mode matches — Euler fields show for Euler bones, W appears only for Quaternion</li>
+      <li>Open the Graph Editor and check the Drivers view to inspect the generated expression</li>
+    </ul>
+
+    <h3>Panel Bones Snap Back on Master Adjust</h3>
+    <ul>
+      <li>This is normal — panels unparent during Adjust mode so they stay visible in place</li>
+      <li>Move the master bone to the new location, then click <strong>Done — Reparent Panels</strong></li>
+      <li>The baking happens automatically on Done — offsets are preserved correctly</li>
+    </ul>
+
+    <h3>GPU Highlight Not Visible</h3>
+    <ul>
+      <li>Make sure the action slot is in edit mode (radio button lit)</li>
+      <li>Check that <strong>Show Highlight</strong> is enabled in the Actions tab settings</li>
+      <li>Increase the <strong>Spread</strong> value if glow is too subtle on your monitor</li>
+      <li>The glow only shows in the 3D viewport, not in renders</li>
+    </ul>
+
+    <h3>Action Tab — "Switch" Button Appears</h3>
+    <ul>
+      <li>This means the bone you've selected is a <em>different</em> control slot from the currently pinned one</li>
+      <li>Click <strong>Switch</strong> to move the panel to the new bone's slots</li>
+      <li>The old slot remains saved — no data is lost</li>
+    </ul>
+
+    <h3>Master Control Adjust Mode Stuck</h3>
+    <ul>
+      <li>You must click <strong>Done — Reparent Panels</strong> to exit adjust mode</li>
+      <li>Do not change modes (Object Mode, Edit Mode) manually while adjusting</li>
+      <li>If stuck, undo (<code>Ctrl+Z</code>) back to before Adjust was clicked</li>
+    </ul>
+
+    <h2>Best Practices</h2>
+    <ul>
+      <li>Build drivers first, then create panels — panels can reference the same bone as the driver source</li>
+      <li>Use the <strong>3D Cursor</strong> to pre-position where panels spawn before clicking Add Panel</li>
+      <li>Name your panels immediately after adding — the panel ID is auto-generated (letters A–Z) but the display name is fully editable</li>
+      <li>Lock all panels with the lock button before handing a rig to an animator</li>
+      <li>For facial rigs, Square panels work best for eyes and mouth; Horizontal/Vertical for brows and jaw</li>
+      <li>Keep panel rigs in a separate armature from the deform rig — link them via constraints</li>
+    </ul>
+
+    
+  </section>
+
+</main>
+
+<script>
+  function show(id, btn) {
+    ['overview','install','drivers','panels','actions','help'].forEach(s => {
+      const el = document.getElementById(s);
+      if (el) el.style.display = s === id ? 'block' : 'none';
+    });
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
